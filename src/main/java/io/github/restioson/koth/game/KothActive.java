@@ -2,7 +2,6 @@ package io.github.restioson.koth.game;
 
 import com.google.common.collect.Sets;
 import io.github.restioson.koth.game.map.KothMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -21,7 +20,6 @@ import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -256,7 +254,7 @@ public class KothActive {
                     player.setVelocity(oldVel.x, oldVel.y + 0.1f, oldVel.z);
                     player.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player));
 
-                    player.playSoundToPlayer(SoundEvents.ENTITY_HORSE_SADDLE.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    player.playSound(SoundEvents.ENTITY_HORSE_SADDLE.value(), 1.0F, 1.0F);
                     cooldown.set(heldStack, LEAP_INTERVAL_TICKS);
                 }
             }
@@ -309,7 +307,7 @@ public class KothActive {
             if (attacker != null) {
                 attacker.score += 1;
                 attacker.player().addExperienceLevels(1);
-                attacker.player().playSoundToPlayer(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                attacker.player().playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                 if (attacker.score >= this.config.firstTo()) {
                     this.gameFinished = true;
                     this.stageManager.finishTime = world.getTime();
@@ -372,7 +370,7 @@ public class KothActive {
         switch (result) {
             case CONTINUE_TICK:
                 this.pvpEnabled = true;
-                this.timerBar.ifPresent(bar -> bar.update(this.stageManager.finishTime - time, this.config.timeLimitSecs() * 20));
+                this.timerBar.ifPresent(bar -> bar.update(this.stageManager.finishTime - time, this.config.timeLimitSecs() * 20L));
                 break;
             case OVERTIME:
                 if (this.overtimeState == OvertimeState.NOT_IN_OVERTIME) {
@@ -442,7 +440,7 @@ public class KothActive {
 
             if (this.gameMap.throne.intersects(player.getBoundingBox()) && time % 20 == 0) {
                 state.score += 1;
-                player.playSoundToPlayer(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                 player.addExperienceLevels(1);
                 rebuildLeaderboard = true;
             } else if (time % 10 == 0) {

@@ -1,13 +1,14 @@
 plugins {
-    id 'fabric-loom' version '1.10.+'
-    id 'maven-publish'
+  id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+  id 'maven-publish'
 }
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
+base {
+  archivesName = project.archives_base_name
+}
 
 loom {
   accessWidenerPath = file("src/main/resources/koth.accesswidener")
@@ -41,10 +42,15 @@ tasks.withType(JavaCompile).configureEach {
 
 java {
   withSourcesJar()
+
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
+  inputs.property "archivesName", project.base.archivesName
+
   from("LICENSE") {
-    rename { "${it}_${project.archivesBaseName}" }
+    rename { "${it}_${inputs.properties.archivesName}"}
   }
 }

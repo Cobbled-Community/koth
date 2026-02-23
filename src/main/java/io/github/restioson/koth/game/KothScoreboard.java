@@ -47,7 +47,7 @@ public class KothScoreboard {
                             entry.score
                     );
                 } else if (entry.hasPlayer() && throne.intersects(entry.player().getBoundingBox())) {
-                    Formatting indicatorColor = entry.player().getWorld().getTime() % 20 == 0 ? Formatting.GOLD : Formatting.YELLOW;
+                    Formatting indicatorColor = entry.player().getEntityWorld().getTime() % 20 == 0 ? Formatting.GOLD : Formatting.YELLOW;
 
                     line = String.format(
                             "%s♦ %s%s%s: %ds",

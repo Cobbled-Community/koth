@@ -71,7 +71,7 @@ public class KothSpawnLogic {
 
         if (stageManager != null) {
             KothStageManager.FrozenPlayer state = stageManager.frozen.computeIfAbsent(player, p -> new KothStageManager.FrozenPlayer());
-            state.lastPos = player.getPos();
+            state.lastPos = player.getEntityPos();
         }
     }
 
@@ -106,7 +106,6 @@ public class KothSpawnLogic {
                         pos.set(x, y, z);
                         if (!world.getBlockState(pos).isAir()) {
                             spawnPositions.add(pos.asLong());
-                            continue;
                         }
                     }
                 }

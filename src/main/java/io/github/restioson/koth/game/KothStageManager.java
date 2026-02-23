@@ -32,7 +32,7 @@ public class KothStageManager {
 
     private void start(long time) {
         this.startTime = time - (time % 20) + (4 * 20) + 19;
-        this.finishTime = this.startTime + (config.timeLimitSecs() * 20);
+        this.finishTime = this.startTime + (config.timeLimitSecs() * 20L);
         this.closeTime = -1;
     }
 
@@ -102,7 +102,7 @@ public class KothStageManager {
             return TickResult.ROUND_FINISHED;
         }
 
-        boolean noPlayers = space.getPlayers().size() == 0;
+        boolean noPlayers = space.getPlayers().isEmpty();
         if (this.config.deathmatch()) {
             int remainingPlayers = 0;
             for (ServerPlayerEntity player : space.getPlayers()) {
@@ -144,7 +144,7 @@ public class KothStageManager {
                 FrozenPlayer state = this.frozen.computeIfAbsent(player, p -> new FrozenPlayer());
 
                 if (state.lastPos == null) {
-                    state.lastPos = player.getPos();
+                    state.lastPos = player.getEntityPos();
                 }
 
                 double destX = state.lastPos.x;
@@ -155,7 +155,7 @@ public class KothStageManager {
                 Set<PositionFlag> flags = ImmutableSet.of(PositionFlag.X_ROT, PositionFlag.Y_ROT);
 
                 // Teleport without changing the pitch and yaw
-                player.teleport(player.getServerWorld(), destX, destY, destZ, flags, 0, 0, false);
+                player.teleport(player.getEntityWorld(), destX, destY, destZ, flags, 0, 0, false);
             }
         }
 
