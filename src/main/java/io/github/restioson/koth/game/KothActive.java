@@ -190,7 +190,7 @@ public class KothActive {
 
     private void setupParticipant(ServerPlayer player) {
         if (this.config.hasStick()) {
-            ItemStack stick = ItemStackBuilder.of(Items.STICK)
+            ItemStack stick = ItemStackBuilder.of(Items.BREEZE_ROD)
                     .addEnchantment(world, Enchantments.KNOCKBACK, 2)
                     .addLore(Component.literal("Ndiza kumbetha"))
                     .build();
